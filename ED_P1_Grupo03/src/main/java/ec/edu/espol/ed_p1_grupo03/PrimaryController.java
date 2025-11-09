@@ -14,4 +14,11 @@ public class PrimaryController {
         // Ir a la pantalla de Gestión de residuos (secondary.fxml)
         App.setRoot("secondary");
     }
+    
+    
+    //Cambia a la ventana de Gestión de Rutas y Despachos.
+    @FXML
+    private void switchToRutas(ActionEvent event) throws IOException {
+        App.setRoot("RutasDespachos"); 
+    }
 }
