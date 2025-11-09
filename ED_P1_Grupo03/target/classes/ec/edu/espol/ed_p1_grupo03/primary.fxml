@@ -75,7 +75,7 @@
                     </padding>
 
                     <Label text="🚚" style="-fx-font-size: 40px;"/>
-                    <Label text="Rutas de recolección"
+                    <Label text="Despacho y recolección"
                            style="-fx-font-weight: bold; -fx-font-size: 13px; -fx-text-alignment: CENTER;"/>
                     <Label text="Planificar rutas del"
                            style="-fx-font-size: 11px;"/>
@@ -83,6 +83,7 @@
                            style="-fx-font-size: 11px;"/>
 
                     <Button text="ABRIR"
+                            onAction="#switchToRutas"
                             style="-fx-background-color: #27ae60;
                                    -fx-text-fill: white;
                                    -fx-background-radius: 20;
