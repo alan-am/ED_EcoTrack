@@ -147,27 +147,36 @@
 
             <!-- Tarjeta de Exportar datos centrada abajo -->
             <VBox alignment="CENTER">
-                <VBox spacing="6" alignment="CENTER"
-                      prefWidth="260" prefHeight="110"
-                      style="-fx-background-color: #ecf9f1;
-                             -fx-border-color: #27ae60;
-                             -fx-border-radius: 15;
-                             -fx-background-radius: 15;">
-                    <padding>
-                        <Insets top="10" right="25" bottom="10" left="25"/>
-                    </padding>
+            <VBox spacing="6" alignment="CENTER"
+                  prefWidth="260" prefHeight="150" style="-fx-background-color: #ecf9f1;
+                         -fx-border-color: #27ae60;
+                         -fx-border-radius: 15;
+                         -fx-background-radius: 15;">
+                <padding>
+                    <Insets top="10" right="25" bottom="10" left="25"/>
+                </padding>
 
-                    <Label text="Exportar datos"
-                           style="-fx-font-weight: bold; -fx-font-size: 13px;"/>
-                    <Label text="Generar archivos para análisis"
-                           style="-fx-font-size: 11px;"/>
+                <Label text="Exportar datos"
+                       style="-fx-font-weight: bold; -fx-font-size: 13px;"/>
+                <Label text="Generar archivos para análisis"
+                       style="-fx-font-size: 11px;"/>
+                <Label text="💾"
+                       style="-fx-font-size: 26px;"/>
 
-                    <Label text="💾"
-                           style="-fx-font-size: 26px;"/>
+                <Button text="ABRIR"
+                        onAction="#switchToExportar"
+                        style="-fx-background-color: #27ae60;
+                               -fx-text-fill: white;
+                               -fx-background-radius: 20;
+                               -fx-padding: 4 18 4 18;">
+                    <VBox.margin>
+                        <Insets top="5"/>
+                    </VBox.margin>
+                </Button>
                 </VBox>
-            </VBox>
-
         </VBox>
-    </center>
+
+    </VBox>
+</center>
 
 </BorderPane>

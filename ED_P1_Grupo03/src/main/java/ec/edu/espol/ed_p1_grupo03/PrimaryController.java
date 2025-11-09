@@ -21,4 +21,10 @@ public class PrimaryController {
     private void switchToRutas(ActionEvent event) throws IOException {
         App.setRoot("RutasDespachos"); 
     }
+    
+    //cambia a la ventana ExportarDatos
+    @FXML
+    private void switchToExportar(ActionEvent event) throws IOException {
+        App.setRoot("ExportarDatos"); 
+    }
 }
