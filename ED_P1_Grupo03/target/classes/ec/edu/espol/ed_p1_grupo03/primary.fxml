@@ -111,6 +111,7 @@
                            style="-fx-font-size: 11px;"/>
 
                     <Button text="ABRIR"
+                            onAction="#switchToReciclaje"
                             style="-fx-background-color: #27ae60;
                                    -fx-text-fill: white;
                                    -fx-background-radius: 20;
@@ -137,6 +138,7 @@
                            style="-fx-font-size: 11px;"/>
 
                     <Button text="ABRIR"
+                            onAction="#switchToEstadisticas"
                             style="-fx-background-color: #27ae60;
                                    -fx-text-fill: white;
                                    -fx-background-radius: 20;
