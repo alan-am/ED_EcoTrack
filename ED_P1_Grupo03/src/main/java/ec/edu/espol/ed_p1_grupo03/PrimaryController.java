@@ -22,6 +22,7 @@ public class PrimaryController {
         App.setRoot("RutasDespachos"); 
     }
     
+<<<<<<< HEAD
     @FXML
     private void switchToReciclaje() throws IOException {
         App.setRoot("Reciclaje");
@@ -31,5 +32,11 @@ public class PrimaryController {
     @FXML
     private void switchToEstadisticas() throws IOException {
         App.setRoot("Estadisticas");
+=======
+    //cambia a la ventana ExportarDatos
+    @FXML
+    private void switchToExportar(ActionEvent event) throws IOException {
+        App.setRoot("ExportarDatos"); 
+>>>>>>> 4013fca5168df97338f9e7398bd03baa3a8cd57b
     }
 }

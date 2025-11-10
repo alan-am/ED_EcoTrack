@@ -1,4 +1,5 @@
 module-info.class
+ec\edu\espol\ed_p1_grupo03\ExportarDatosController.class
 ec\edu\espol\ed_p1_grupo03\PrimaryController.class
 ec\edu\espol\ed_p1_grupo03\App.class
 ec\edu\espol\ed_p1_grupo03\RutasDespachosController.class
