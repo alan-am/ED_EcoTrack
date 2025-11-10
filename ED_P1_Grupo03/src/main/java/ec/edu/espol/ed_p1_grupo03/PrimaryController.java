@@ -21,4 +21,15 @@ public class PrimaryController {
     private void switchToRutas(ActionEvent event) throws IOException {
         App.setRoot("RutasDespachos"); 
     }
+    
+    @FXML
+    private void switchToReciclaje() throws IOException {
+        App.setRoot("Reciclaje");
+    }
+
+    
+    @FXML
+    private void switchToEstadisticas() throws IOException {
+        App.setRoot("Estadisticas");
+    }
 }
