@@ -14,9 +14,15 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import ec.edu.espol.ed_p1_grupo03.App;
+import java.util.ArrayList;
+import java.util.List;
+//import ec.edu.espol.ed_p1_grupo03.Residuo;, usamos por ahora ResiduoTemp 
+import java.util.PriorityQueue;
 
 public class RutasDespachosController implements Initializable {
-
+    
+    
+    //--------------------
     // Panel Izquierdo 
     @FXML
     private Label lblZonaUrgente;
@@ -46,60 +52,81 @@ public class RutasDespachosController implements Initializable {
     private TableColumn<TareaPrioritaria, String> colPendiente;
     @FXML
     private TableColumn<TareaPrioritaria, String> colRecolectado;
-    //@FXML
-    //private TableColumn colAccion; // stand by
-
-    // Lista observable 
-    private ObservableList<TareaPrioritaria> tareasPendientes = FXCollections.observableArrayList();
-
     // boton volver al inicio
     @FXML
     private void switchToPrimary(ActionEvent event) throws IOException {
         App.setRoot("primary");
     }
+    //@FXML
+    //private TableColumn colAccion; // stand by
+    
+    
+    //--------------------------------------Atributos de Negocio
+    private  PriorityQueue<Zona> colaZonas;
+    
+    
+    // Lista observable(Para tabla visual)
+    private ObservableList<TareaPrioritaria> tareasPendientes = FXCollections.observableArrayList();
 
-    // carga de datos ejemplo a la tabla
+
+    //inicializa la ventana
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Configurar las columnas de la tabla para que sepa de dónde
-        //   obtener los datos de la clase TareaPrioritaria
-        colZona.setCellValueFactory(new PropertyValueFactory<>("zona"));
-        colDesecho.setCellValueFactory(new PropertyValueFactory<>("desecho"));
-        colUtilidad.setCellValueFactory(new PropertyValueFactory<>("utilidad"));
-        colPendiente.setCellValueFactory(new PropertyValueFactory<>("pendiente"));
-        colRecolectado.setCellValueFactory(new PropertyValueFactory<>("recolectado"));
         
-        // Cargar los datos de ejemplo
-        cargarDatosDeEjemplo();
+        colaZonas = new PriorityQueue<>(ComparadoresZona.porUtilidad());
+        configurarColumnasVista();
         
-        // Mostrar los datos en la tabla
         tablaPrioridad.setItems(tareasPendientes);
         
-        // Actualizar el panel "Próximo Despacho" con el primer item de piroridad
-        actualizarPanelDespacho();
+        // Cargar algunos datos de inicio manualmente(temporal)
+        cargarDatosSimulados();
+        actualizarVista();
     }
     
     //metodo de seteo de ejemplos
-    private void cargarDatosDeEjemplo() {
-        tareasPendientes.add(new TareaPrioritaria("Hospital", "Desechos Biológicos", -5, "10 KG", "5 KG"));
-        tareasPendientes.add(new TareaPrioritaria("Centro Comercial", "Plásticos", -2, "20 KG", "18 KG"));
-        tareasPendientes.add(new TareaPrioritaria("Zona Residencial A", "Orgánicos", 1, "2 KG", "3 KG"));
-        tareasPendientes.add(new TareaPrioritaria("Parque", "Común", 4, "11 KG", "15 KG"));
-        tareasPendientes.add(new TareaPrioritaria("Zona Residencial B", "Vidrio", 5, "20 KG", "25 KG"));
+    private void cargarDatosSimulados() {
+        Zona z1 = new Zona("Hospital", 50); 
+        z1.agregarResiduo(new ResiduoTemp("Jeringas", "Biológico", 80));
+        
+        Zona z2 = new Zona("Parque", 20);
+        z2.agregarResiduo(new ResiduoTemp("Botellas", "Plástico", 10));
+        
+        colaZonas.offer(z1);
+        colaZonas.offer(z2);
     }
     
-    //metodo que actualiza el panel izquierdo
-    private void actualizarPanelDespacho() {
-        if (!tareasPendientes.isEmpty()) {
-            // Obtiene el primer item de la lista (el más urgente)
-            TareaPrioritaria urgente = tareasPendientes.get(0);
+
+    private void actualizarVista() {
+        tareasPendientes.clear();
+        
+        //implementacion no propia temporal
+        List<Zona> listaVisual = new ArrayList<>(colaZonas);
+        // ordenamos la lista visual usando el MISMO comparador que tenga la cola actualmente
+        listaVisual.sort(colaZonas.comparator());
+        
+        
+        // Convertir Zona a TareaPrioritaria
+        for (Zona z : listaVisual) {
             
-            lblZonaUrgente.setText(urgente.getZona());
-            lblUtilidadUrgente.setText(urgente.getUtilidad() + " (Crítico)");
-            lblPendienteUrgente.setText(urgente.getPendiente());
-            lblTipoDesechoUrgente.setText(urgente.getDesecho());
+             String tiposResiduos = "Varios"; //luego concatenar tipos
+             tareasPendientes.add(new TareaPrioritaria(
+                 z.getNombre(), 
+                 tiposResiduos, 
+                 (int) z.getUtilidad(), 
+                 z.getPPendiente() + " KG", 
+                 z.getPRecolectado() + " KG"
+             ));
+        }
+
+        // Actualizar Panel "Proximo despacho"
+        Zona proxima = colaZonas.peek();
+        if (proxima != null) {
+            lblZonaUrgente.setText(proxima.getNombre()); 
+            lblUtilidadUrgente.setText(String.format("%.2f (Crítico)", proxima.getUtilidad())); 
+            lblPendienteUrgente.setText(proxima.getPPendiente() + " KG");
+            String tipo = proxima.getResiduos().isEmpty() ? "---" : proxima.getResiduos().get(0).getTipo();
+            lblTipoDesechoUrgente.setText(tipo);
         } else {
-            // Si esque no hay tareas, limpia el panel
             lblZonaUrgente.setText("---");
             lblUtilidadUrgente.setText("---");
             lblPendienteUrgente.setText("---");
@@ -107,15 +134,23 @@ public class RutasDespachosController implements Initializable {
         }
     }
 
+
     //boton despachar , para simular el despacho
     @FXML
     private void despacharSiguiente(ActionEvent event) {
-        if (!tareasPendientes.isEmpty()) {
-            //elimina el primer item
-            tareasPendientes.remove(0);
-            
-            //actualiza el panel izquierdo con la nuev aurgencia
-            actualizarPanelDespacho();
+        if (!colaZonas.isEmpty()) {
+            Zona atendida = colaZonas.poll(); // Saca el de mayor prioridad 
+            System.out.println("Despachando camión a: " + atendida.getNombre());
+            //luego implementar adicional de ventana "Residuos Procesados"
+            actualizarVista();
         }
+    }
+    
+    private void configurarColumnasVista(){
+        colZona.setCellValueFactory(new PropertyValueFactory<>("zona"));
+        colDesecho.setCellValueFactory(new PropertyValueFactory<>("desecho"));
+        colUtilidad.setCellValueFactory(new PropertyValueFactory<>("utilidad"));
+        colPendiente.setCellValueFactory(new PropertyValueFactory<>("pendiente"));
+        colRecolectado.setCellValueFactory(new PropertyValueFactory<>("recolectado"));
     }
 }
