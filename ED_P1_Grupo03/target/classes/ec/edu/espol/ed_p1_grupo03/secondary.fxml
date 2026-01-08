@@ -96,6 +96,7 @@
                         <TableColumn fx:id="colTipo" text="Tipo" prefWidth="90"/>
                         <TableColumn fx:id="colPeso" text="Peso" prefWidth="70"/>
                         <TableColumn fx:id="colZona" text="Zona" prefWidth="90"/>
+                        <TableColumn fx:id="colPrioridad" text="Prioridad" prefWidth="100"/>
                         <TableColumn fx:id="colFecha" text="Fecha" prefWidth="110"/>
                     </columns>
                 </TableView>

@@ -11,6 +11,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import comparadores.ComparadorPorPeso;
+import comparadores.ComparadorPorTipo;
+import comparadores.ComparadorPorPrioridad;
+import java.util.Collections;
+
 
 /**
  * Controlador de la pantalla de Gestión de residuos (secondary.fxml).
@@ -37,6 +42,7 @@ public class SecondaryController implements Initializable {
     @FXML private TableColumn<Residuo, String> colTipo;
     @FXML private TableColumn<Residuo, Double> colPeso;
     @FXML private TableColumn<Residuo, String> colZona;
+    @FXML private TableColumn<Residuo, String> colPrioridad;
     @FXML private TableColumn<Residuo, String> colFecha;
 
     private final ObservableList<Residuo> listaResiduos =
@@ -57,10 +63,12 @@ public class SecondaryController implements Initializable {
         // Combo de ordenamiento
         if (cbOrden != null) { // por seguridad
             cbOrden.getItems().addAll(
-                    "Prioridad Alta-Baja",
-                    "Prioridad Baja-Alta"
+                "Peso",
+                "Tipo",
+                "Prioridad"
             );
-            cbOrden.setValue("Prioridad Alta-Baja");
+            cbOrden.setValue("Peso");
+
         }
 
         // Configurar columnas de la tabla
@@ -69,6 +77,7 @@ public class SecondaryController implements Initializable {
         colTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
         colPeso.setCellValueFactory(new PropertyValueFactory<>("peso"));
         colZona.setCellValueFactory(new PropertyValueFactory<>("zona"));
+        colPrioridad.setCellValueFactory(new PropertyValueFactory<>("prioridad"));
         colFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
 
         tablaResiduos.setItems(listaResiduos);
@@ -141,28 +150,23 @@ public class SecondaryController implements Initializable {
 
     @FXML
     private void aplicarOrden(ActionEvent event) {
-        if (cbOrden == null) return;
 
         String criterio = cbOrden.getValue();
         if (criterio == null) return;
 
-        // Ordenar por prioridad usando FXCollections.sort
-        if (criterio.equals("Prioridad Alta-Baja")) {
-            FXCollections.sort(listaResiduos,
-                    (r1, r2) -> Integer.compare(
-                            prioridadValor(r2.getPrioridad()),
-                            prioridadValor(r1.getPrioridad())
-                    ));
-        } else if (criterio.equals("Prioridad Baja-Alta")) {
-            FXCollections.sort(listaResiduos,
-                    (r1, r2) -> Integer.compare(
-                            prioridadValor(r1.getPrioridad()),
-                            prioridadValor(r2.getPrioridad())
-                    ));
+        if (criterio.equals("Peso")) {
+            Collections.sort(listaResiduos, new ComparadorPorPeso());
+        } 
+        else if (criterio.equals("Tipo")) {
+            Collections.sort(listaResiduos, new ComparadorPorTipo());
+        } 
+        else if (criterio.equals("Prioridad")) {
+            Collections.sort(listaResiduos, new ComparadorPorPrioridad());
         }
 
-        System.out.println("Orden aplicado: " + criterio);
+        tablaResiduos.refresh();
     }
+
 
     // Convierte prioridad a número para poder ordenar
     private int prioridadValor(String p) {

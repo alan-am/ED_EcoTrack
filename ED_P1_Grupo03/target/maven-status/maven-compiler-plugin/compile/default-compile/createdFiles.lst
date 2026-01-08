@@ -1,10 +1,13 @@
 ec\edu\espol\ed_p1_grupo03\CentroReciclaje.class
+comparadores\ComparadorPorTipo.class
 ec\edu\espol\ed_p1_grupo03\PrimaryController.class
 ec\edu\espol\ed_p1_grupo03\App.class
 ec\edu\espol\ed_p1_grupo03\RutasDespachosController.class
 ec\edu\espol\ed_p1_grupo03\EstadisticasPieCHART.class
 ec\edu\espol\ed_p1_grupo03\TareaPrioritaria.class
 ec\edu\espol\ed_p1_grupo03\SecondaryController.class
+comparadores\ComparadorPorPeso.class
 module-info.class
 ec\edu\espol\ed_p1_grupo03\ExportarDatosController.class
+comparadores\ComparadorPorPrioridad.class
 ec\edu\espol\ed_p1_grupo03\Residuo.class
