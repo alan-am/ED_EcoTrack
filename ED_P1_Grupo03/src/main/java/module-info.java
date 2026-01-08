@@ -6,5 +6,6 @@ module ec.edu.espol.ed_p1_grupo03 {
 
     
     opens ec.edu.espol.ed_p1_grupo03 to javafx.fxml;
+    opens ec.edu.espol.ed_p1_grupo03.rutas_recoleccion to javafx.fxml, javafx.base;
     exports ec.edu.espol.ed_p1_grupo03;
 }

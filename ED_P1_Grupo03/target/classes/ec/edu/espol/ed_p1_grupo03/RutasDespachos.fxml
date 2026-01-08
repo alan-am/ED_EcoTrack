@@ -12,7 +12,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/8.0.171" 
             xmlns:fx="http://javafx.com/fxml/1" 
-            fx:controller="ec.edu.espol.ed_p1_grupo03.RutasDespachosController"
+            fx:controller="ec.edu.espol.ed_p1_grupo03.rutas_recoleccion.RutasDespachosController"
             prefHeight="600.0" prefWidth="900.0">
 
     <top>
@@ -37,10 +37,7 @@
     <left>
         <VBox spacing="15" 
               prefWidth="280"
-              style="-fx-background-color: #ecf9f1; 
-                     -fx-border-color: #27ae60; 
-                     -fx-border-width: 1 1 1 0; 
-                     -fx-background-radius: 0 0 0 0;">
+              style="-fx-background-color: #ecf9f1; -fx-border-color: #27ae60; -fx-border-width: 1 1 1 0; -fx-background-radius: 0 0 0 0;">
             <padding>
                 <Insets top="20" right="20" bottom="20" left="20" />
             </padding>
@@ -51,53 +48,33 @@
             <VBox spacing="8">
                 <Label text="Zona:" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
                 <Label fx:id="lblZonaUrgente" 
-                       text="Hospital" 
+                       text="---" 
                        maxWidth="Infinity"
-                       style="-fx-background-color: white; 
-                              -fx-border-color: #b0b0b0; 
-                              -fx-border-radius: 5; 
-                              -fx-background-radius: 5; 
-                              -fx-padding: 8; 
-                              -fx-font-size: 13px;"/>
+                       style="-fx-background-color: white; -fx-border-color: #b0b0b0; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 8; -fx-font-size: 13px;"/>
             </VBox>
 
             <VBox spacing="8">
                 <Label text="Utilidad:" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
                 <Label fx:id="lblUtilidadUrgente" 
-                       text="-5 (Crítico)" 
+                       text="---" 
                        maxWidth="Infinity"
-                       style="-fx-background-color: white; 
-                              -fx-border-color: #b0b0b0; 
-                              -fx-border-radius: 5; 
-                              -fx-background-radius: 5; 
-                              -fx-padding: 8; 
-                              -fx-font-size: 13px;"/>
+                       style="-fx-background-color: white; -fx-border-color: #b0b0b0; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 8; -fx-font-size: 13px;"/>
             </VBox>
             
             <VBox spacing="8">
                 <Label text="Pendiente:" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
                 <Label fx:id="lblPendienteUrgente" 
-                       text="10 KG" 
+                       text="---" 
                        maxWidth="Infinity"
-                       style="-fx-background-color: white; 
-                              -fx-border-color: #b0b0b0; 
-                              -fx-border-radius: 5; 
-                              -fx-background-radius: 5; 
-                              -fx-padding: 8; 
-                              -fx-font-size: 13px;"/>
+                       style="-fx-background-color: white; -fx-border-color: #b0b0b0; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 8; -fx-font-size: 13px;"/>
             </VBox>
 
             <VBox spacing="8">
                 <Label text="Tipo de desecho:" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
                 <Label fx:id="lblTipoDesechoUrgente" 
-                       text="Desechos Biológicos" 
+                       text="---" 
                        maxWidth="Infinity"
-                       style="-fx-background-color: white; 
-                              -fx-border-color: #b0b0b0; 
-                              -fx-border-radius: 5; 
-                              -fx-background-radius: 5; 
-                              -fx-padding: 8; 
-                              -fx-font-size: 13px;"/>
+                       style="-fx-background-color: white; -fx-border-color: #b0b0b0; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 8; -fx-font-size: 13px;"/>
             </VBox>
 
             <Pane VBox.vgrow="ALWAYS" />
@@ -106,12 +83,7 @@
                     text="Despachar vehículo" 
                     onAction="#despacharSiguiente"
                     maxWidth="Infinity" 
-                    style="-fx-background-color: #27ae60; 
-                           -fx-text-fill: white; 
-                           -fx-background-radius: 20; 
-                           -fx-font-size: 16px; 
-                           -fx-font-weight: bold; 
-                           -fx-padding: 10;"/>
+                    style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-background-radius: 20; -fx-font-size: 16px; -fx-font-weight: bold; -fx-padding: 10;"/>
         </VBox>
     </left>
 
@@ -128,12 +100,9 @@
                 <columns>
                     <TableColumn fx:id="colZona" text="Zona" prefWidth="120.0" />
                     <TableColumn fx:id="colDesecho" text="Desecho" prefWidth="150.0" />
-                    <TableColumn fx:id="colUtilidad" text="Utilidad" prefWidth="90.0">
-                        <sortType>ASCENDING</sortType> 
-                    </TableColumn>
+                    <TableColumn fx:id="colUtilidad" text="Utilidad" prefWidth="90.0" />
                     <TableColumn fx:id="colPendiente" text="Pendiente" prefWidth="100.0" />
                     <TableColumn fx:id="colRecolectado" text="Recolectado" prefWidth="100.0" />
-                    
                     <TableColumn fx:id="colAccion" text="Acción" prefWidth="120.0" />
                 </columns>
                 <columnResizePolicy>
