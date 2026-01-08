@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package ec.edu.espol.ed_p1_grupo03;
+package ec.edu.espol.ed_p1_grupo03.rutas_recoleccion;
 
-/**
- *
- * @author Alan
- */
 
 //*ignorar*    Clase de ejemplo para simular datos en la interdaz de despacho y recoleccion
 public class TareaPrioritaria {
@@ -47,4 +39,5 @@ public class TareaPrioritaria {
         return recolectado;
     }
 }
+
 

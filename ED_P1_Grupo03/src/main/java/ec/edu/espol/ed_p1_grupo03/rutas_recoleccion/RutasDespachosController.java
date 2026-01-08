@@ -1,4 +1,4 @@
-package ec.edu.espol.ed_p1_grupo03;
+package ec.edu.espol.ed_p1_grupo03.rutas_recoleccion;
 
 import java.io.IOException;
 import java.net.URL;
@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import ec.edu.espol.ed_p1_grupo03.App;
 
 public class RutasDespachosController implements Initializable {
 
