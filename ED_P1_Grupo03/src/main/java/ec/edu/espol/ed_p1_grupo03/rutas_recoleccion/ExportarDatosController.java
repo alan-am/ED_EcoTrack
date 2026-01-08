@@ -1,9 +1,14 @@
 package ec.edu.espol.ed_p1_grupo03.rutas_recoleccion;
 
+import ec.edu.espol.ed_p1_grupo03.App;
+//import ec.edu.espol.ed_p1_grupo03.modelo.Residuo; 
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,114 +18,171 @@ import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.FileChooser;
-import ec.edu.espol.ed_p1_grupo03.App;
 
+//Por ahora esta implementado solo para los datos relacionado a rutas de recoleccion
 
 public class ExportarDatosController implements Initializable {
 
-    // Boton Barra Superior
-    @FXML
-    private Button btnVolverInicio;
-
-    // opcciones de datos 
-    @FXML
-    private ToggleGroup dataGroup;
-    @FXML
-    private RadioButton radioResiduos;
-    @FXML
-    private RadioButton radioEstadisticas;
-
-    // Opciones de formato
-    @FXML
-    private ToggleGroup formatGroup;
-    @FXML
-    private RadioButton radioCSV;
-    @FXML
-    private RadioButton radioJSON;
-
-    // Botón de exportar
-    @FXML
-    private Button btnExportar;
-
+    @FXML private Button btnVolverInicio;
+    @FXML private ToggleGroup dataGroup;
+    @FXML private RadioButton radioResiduos;     // Opción "Detalle de Zonas/Residuos"
+    @FXML private RadioButton radioEstadisticas; // Opción "Estadísticas" (Simulado temporalmente)
     
-    //funcion de inicializacion
+    @FXML private ToggleGroup formatGroup;
+    @FXML private RadioButton radioCSV;
+    @FXML private RadioButton radioJSON;
+    @FXML private Button btnExportar;
+    
+    //--------------------------------------------------
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        // Inicializaciones
     }
 
-    //funcion para regresar al menu
     @FXML
     private void switchToPrimary(ActionEvent event) throws IOException {
         App.setRoot("primary");
     }
 
-    // simula el guardado de un archivo X
+    // MÉTODO PRINCIPAL DE EXPORTACION 
     @FXML
     private void exportarArchivo(ActionEvent event) {
-        
-        // dialogo del sistema
+        // config diálogo de guardado
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Guardar Reporte");
+        fileChooser.setTitle("Guardar Reporte EcoTrack");
+        
+        String extension = radioCSV.isSelected() ? "*.csv" : "*.json";
+        String descripcion = radioCSV.isSelected() ? "Archivos CSV" : "Archivos JSON";
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(descripcion, extension));
+        
+        // Nombre sugerido por defecto
+        fileChooser.setInitialFileName("reporte_ecotrack" + (radioCSV.isSelected() ? ".csv" : ".json"));
 
-        //ejemplo de seleccion
-        String initialName = "reporte_residuos";
-        String extension = "*.txt"; // Por ahora
-        String extensionName = "Archivo de Texto";
-
-        if (radioCSV.isSelected()) {
-            initialName = "reporte_residuos.csv";
-            extension = "*.csv";
-            extensionName = "Archivo CSV";
-        } else if (radioJSON.isSelected()) {
-            initialName = "reporte_residuos.json";
-            extension = "*.json";
-            extensionName = "Archivo JSON";
-        }
-
-        // configd del dialogo
-        fileChooser.setInitialFileName(initialName);
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter(extensionName, extension),
-                new FileChooser.ExtensionFilter("Todos los Archivos", "*.*")
-        );
-
-        //mostrar dialogo de guardado
+        // mostrar diálogo
         File file = fileChooser.showSaveDialog(btnExportar.getScene().getWindow());
 
-        // 5. Si el usuario selecciona una ubicación, guardar el archivo
         if (file != null) {
-            try (FileWriter writer = new FileWriter(file)) {
-                
-                // aqui implementar logica
-                
-                writer.write("--- ARCHIVO DE EJEMPLO EcoTrack --- \n\n");
-                writer.write("Este es un archivo de prueba.\n");
-                
-                if (radioResiduos.isSelected()) {
-                    writer.write("El usuario seleccionó: Lista de residuos\n");
-                } else {
-                    writer.write("El usuario seleccionó: Estadísticas globales\n");
-                }
-                
-                if (radioCSV.isSelected()) {
-                    writer.write("Formato seleccionado: CSV\n");
-                } else {
-                    writer.write("Formato seleccionado: JSON\n");
-                }
-               
+            // obtencion datos de prueba
+            List<Zona> datos = obtenerDatosDelSistema(); 
+            
+            String contenido = "";
 
-                // pop up de exito
-                mostrarAlerta("Éxito", "El archivo se ha guardado correctamente en:\n" + file.getAbsolutePath());
-
-            } catch (IOException e) {
-                mostrarAlerta("Error", "No se pudo guardar el archivo.\n" + e.getMessage());
-                e.printStackTrace();
+            // Construccion de acuerdo a la seleccion
+            if (radioCSV.isSelected()) {
+                contenido = generarContenidoCSV(datos);
+            } else {
+                contenido = generarContenidoJSON(datos);
             }
+
+            // guardar en disco
+            guardarEnDisco(file, contenido);
         }
     }
-    
-    //config del pop up
+
+    // generador csv
+    private String generarContenidoCSV(List<Zona> zonas) {
+        StringBuilder sb = new StringBuilder();
+        
+        // Cabecera del CSV
+        sb.append("NOMBRE_ZONA,UTILIDAD,PESO_PENDIENTE,PESO_RECOLECTADO,DETALLE_RESIDUOS\n");
+
+        for (Zona z : zonas) {
+            sb.append(z.getNombre()).append(",");
+            sb.append(String.format("%.2f", z.getUtilidad())).append(",");
+            sb.append(z.getPPendiente()).append(",");
+            sb.append(z.getPRecolectado()).append(",");
+
+            // Manejo de la lista interna de residuos (separados por punto y coma)
+            StringBuilder residuosStr = new StringBuilder();
+            if (z.getResiduos() != null && !z.getResiduos().isEmpty()) {
+                for (ResiduoTemp r : z.getResiduos()) {
+                    residuosStr.append(r.getTipo()).append(" (").append(r.getPeso()).append("kg); ");
+                }
+            } else {
+                residuosStr.append("Sin residuos");
+            }
+            
+            // Limpiar caracteres peligrosos para CSV(, " ")
+            String residuosLimpios = residuosStr.toString().replace(",", " ");
+            sb.append(residuosLimpios).append("\n");
+        }
+        return sb.toString();
+    }
+
+    //GENERADOR JSON 
+    private String generarContenidoJSON(List<Zona> zonas) {
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append("{\n");
+        sb.append("  \"sistema\": \"EcoTrack\",\n");
+        sb.append("  \"reporte\": \"Estado de Zonas\",\n");
+        sb.append("  \"data\": [\n");
+
+        for (int i = 0; i < zonas.size(); i++) {
+            Zona z = zonas.get(i);
+            sb.append("    {\n");
+            sb.append("      \"zona\": \"").append(z.getNombre()).append("\",\n");
+            sb.append("      \"utilidad\": ").append(z.getUtilidad()).append(",\n");
+            sb.append("      \"pendiente\": ").append(z.getPPendiente()).append(",\n");
+            sb.append("      \"recolectado\": ").append(z.getPRecolectado()).append(",\n");
+            
+            // Array anidado para residuos
+            sb.append("      \"residuos\": [");
+            if (z.getResiduos() != null) {
+                for (int j = 0; j < z.getResiduos().size(); j++) {
+                    ResiduoTemp r = z.getResiduos().get(j);
+                    sb.append("\n        { \"tipo\": \"").append(r.getTipo()).append("\", \"peso\": ").append(r.getPeso()).append(" }");
+                    if (j < z.getResiduos().size() - 1) sb.append(",");
+                }
+            }
+            if (z.getResiduos() != null && !z.getResiduos().isEmpty()) sb.append("\n      ");
+            sb.append("]\n");
+
+            sb.append("    }");
+            
+            // Coma JSON para separar objetos (excepto el ultimo)
+            if (i < zonas.size() - 1) {
+                sb.append(",");
+            }
+            sb.append("\n");
+        }
+
+        sb.append("  ]\n");
+        sb.append("}");
+        
+        return sb.toString();
+    }
+
+    // GUARDAR EN DISCO 
+    private void guardarEnDisco(File file, String contenido) {
+        try (FileWriter writer = new FileWriter(file)) {
+            writer.write(contenido);
+            mostrarAlerta("Éxito", "Archivo guardado correctamente en:\n" + file.getAbsolutePath());
+        } catch (IOException e) {
+            mostrarAlerta("Error", "No se pudo escribir el archivo.\n" + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    // datos prueba
+    private List<Zona> obtenerDatosDelSistema() {
+        // En el futuro, esto debería pedirle los datos a tu Controlador Principal o Singleton
+        List<Zona> lista = new ArrayList<>();
+        
+        Zona z1 = new Zona("Mercado Central", 120);
+        z1.agregarResiduo(new ResiduoTemp("Orgánico", "Orgánico", 50));
+        z1.agregarResiduo(new ResiduoTemp("Cajas", "Cartón", 20));
+        
+        Zona z2 = new Zona("Puerto Santa Ana", 45);
+        z2.agregarResiduo(new ResiduoTemp("Botellas", "Plástico", 15));
+        
+        lista.add(z1);
+        lista.add(z2);
+        
+        return lista;
+    }
+
     private void mostrarAlerta(String titulo, String contenido) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titulo);
