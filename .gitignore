@@ -22,3 +22,57 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+
+# --- Archivos Compilados (No subir nunca) ---
+*.class
+
+# --- NetBeans 
+# Importante: Mantener nbproject/ pero ignorar la carpeta private/ 
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# --- Archivos de Sistema Operativo (Basura) ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Otros IDEs
+.vscode/
+.idea/
+*.iml
+*.iws
+*.ipr
+.settings/
+.classpath
+.project
+
+# --- Paquetes y Comprimidos ---
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# --- Archivos de Datos Generados(opcional)
+*.csv
+*.json
+*.txt
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+replay_pid*
