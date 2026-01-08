@@ -1,15 +1,18 @@
 
 package ec.edu.espol.ed_p1_grupo03.rutas_recoleccion;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Alan
  */
 
-public class ResiduoTemp {
+public class ResiduoTemp implements Serializable{
     private String nombre;
     private String tipo;
     private double peso;
+    private static final long serialVersionUID = 1L;
 
     public ResiduoTemp(String nombre, String tipo, double peso) {
         this.nombre = nombre;

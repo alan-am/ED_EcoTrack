@@ -4,7 +4,9 @@ ec\edu\espol\ed_p1_grupo03\PrimaryController.class
 ec\edu\espol\ed_p1_grupo03\App.class
 ec\edu\espol\ed_p1_grupo03\EstadisticasPieCHART.class
 ec\edu\espol\ed_p1_grupo03\rutas_recoleccion\RutasDespachosController.class
+ec\edu\espol\ed_p1_grupo03\serializado\GestorPersistencia.class
 ec\edu\espol\ed_p1_grupo03\rutas_recoleccion\Zona.class
+ec\edu\espol\ed_p1_grupo03\serializado\Sistema.class
 ec\edu\espol\ed_p1_grupo03\SecondaryController.class
 ec\edu\espol\ed_p1_grupo03\rutas_recoleccion\ExportarDatosController.class
 module-info.class

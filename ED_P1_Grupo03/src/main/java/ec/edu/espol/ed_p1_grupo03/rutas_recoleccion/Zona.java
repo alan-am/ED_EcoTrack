@@ -1,14 +1,17 @@
 package ec.edu.espol.ed_p1_grupo03.rutas_recoleccion;
 
 //import ec.edu.espol.ed_p1_grupo03.Residuo;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
 
-public class Zona implements Comparable<Zona>{
+public class Zona implements Comparable<Zona>, Serializable{
     private String nombre;
     private double pRecolectado;
     private double pPendiente;
+    
+    private static final long serialVersionUID = 1L;
     
     // Lista Temporal de java util
     private List<ResiduoTemp> residuos; 

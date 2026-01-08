@@ -3,6 +3,7 @@ package ec.edu.espol.ed_p1_grupo03.rutas_recoleccion;
 import ec.edu.espol.ed_p1_grupo03.App;
 //import ec.edu.espol.ed_p1_grupo03.modelo.Residuo; 
 
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,6 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.FileChooser;
+import ec.edu.espol.ed_p1_grupo03.serializado.Sistema;
 
 //Por ahora esta implementado solo para los datos relacionado a rutas de recoleccion
 
@@ -167,20 +169,8 @@ public class ExportarDatosController implements Initializable {
 
     // datos prueba
     private List<Zona> obtenerDatosDelSistema() {
-        // En el futuro, esto debería pedirle los datos a tu Controlador Principal o Singleton
-        List<Zona> lista = new ArrayList<>();
         
-        Zona z1 = new Zona("Mercado Central", 120);
-        z1.agregarResiduo(new ResiduoTemp("Orgánico", "Orgánico", 50));
-        z1.agregarResiduo(new ResiduoTemp("Cajas", "Cartón", 20));
-        
-        Zona z2 = new Zona("Puerto Santa Ana", 45);
-        z2.agregarResiduo(new ResiduoTemp("Botellas", "Plástico", 15));
-        
-        lista.add(z1);
-        lista.add(z2);
-        
-        return lista;
+        return Sistema.getInstance().getZonas();
     }
 
     private void mostrarAlerta(String titulo, String contenido) {
