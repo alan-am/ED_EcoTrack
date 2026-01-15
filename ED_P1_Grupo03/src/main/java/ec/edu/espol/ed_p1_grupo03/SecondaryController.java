@@ -193,10 +193,10 @@ public class SecondaryController implements Initializable {
     private void cargarDatosDelSistema() {
         listaResiduos.clear();
         
-        // Obtenemos tu lista circular propia desde el Singleton
+        // Obtenemos lista circular propia desde el Singleton
         ListaCircularDoble<Residuo> listaCircular = Sistema.getInstance().getResiduos();
 
-        // Como tu ListaCircularDoble implementa Iterable (lo hicimos antes), podemos usar foreach
+ 
         for (Residuo r : listaCircular) {
             listaResiduos.add(r);
         }

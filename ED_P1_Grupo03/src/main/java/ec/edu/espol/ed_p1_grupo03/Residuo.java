@@ -101,7 +101,7 @@ public class Residuo implements Serializable{
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         Residuo otro = (Residuo) obj;
-        // Asumimos que el ID es único. Si no usan ID, compara por nombre.
+        // Asumimos que el ID es único. Si no compara por nombre.
         return this.id != null && this.id.equals(otro.id);
     }
     
