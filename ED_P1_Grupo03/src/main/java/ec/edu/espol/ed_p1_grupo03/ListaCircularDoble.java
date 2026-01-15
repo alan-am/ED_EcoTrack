@@ -1,10 +1,8 @@
-
 package ec.edu.espol.ed_p1_grupo03;
 
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
 
 public class ListaCircularDoble<E> implements Serializable, Iterable<E> {
     
@@ -20,7 +18,7 @@ public class ListaCircularDoble<E> implements Serializable, Iterable<E> {
         this.tamano = 0;
     }
 
-    // Agrega un elemento al final manteniendo la definicion
+    // Agrega un elemento al final
     public void addLast(E contenido) {
         if (contenido == null) return;
         
@@ -41,7 +39,6 @@ public class ListaCircularDoble<E> implements Serializable, Iterable<E> {
         tamano++;
     }
 
-    // Elimina un elemento d acuerdo al argumento
     public boolean remove(E contenido) {
         if (isEmpty()) return false;
 
@@ -57,7 +54,6 @@ public class ListaCircularDoble<E> implements Serializable, Iterable<E> {
         return false;
     }
 
-    // Desliga un nodo ajustando punteros anteriores y siguientes
     private void unlink(NodoCircular<E> nodo) {
         if (tamano == 1) {
             cabeza = null;
@@ -72,7 +68,6 @@ public class ListaCircularDoble<E> implements Serializable, Iterable<E> {
         tamano--;
     }
 
-    // Obtiene el elemento en un íNdice específico
     public E get(int index) {
         if (index < 0 || index >= tamano) throw new IndexOutOfBoundsException();
         
@@ -84,16 +79,13 @@ public class ListaCircularDoble<E> implements Serializable, Iterable<E> {
     }
 
     public int size() { return tamano; }
-
     public boolean isEmpty() { return tamano == 0; }
-
     public void clear() {
         cabeza = null;
         ultimo = null;
         tamano = 0;
     }
     
-    // --- Implementación del Iterable ---
     @Override
     public Iterator<E> iterator() {
         return new IteradorLista();
@@ -118,34 +110,12 @@ public class ListaCircularDoble<E> implements Serializable, Iterable<E> {
         }
     }
     
-//    // --- Iterador Manual (para recorrer adelante/atrás en la UI)
-//    public IteradorManual<E> iteradorManual() {
-//        return new IteradorManual<>(cabeza);
-//    }
+    
+    public NodoCircular<E> getHeaderNode() {
+        return cabeza;
+    }
 
-//    // Clase estática para navegación manual controlada
-//    public static class IteradorManual<T> {
-//        private NodoCircular<T> actual;
-//
-//        public IteradorManual(NodoCircular<T> inicio) {
-//            this.actual = inicio;
-//        }
-//
-//        public T next() {
-//            if (actual == null) return null;
-//            T dato = actual.getContenido();
-//            actual = actual.getSiguiente();
-//            return dato;
-//        }
-//
-//        public T prev() {
-//            if (actual == null) return null;
-//            actual = actual.getAnterior(); 
-//            return actual.getContenido();
-//        }
-//        
-//        public T current() {
-//            return actual != null ? actual.getContenido() : null;
-//        }
-//    }
+    public NodoCircular<E> getLastNode() {
+        return ultimo;
+    }
 }
