@@ -4,11 +4,14 @@
  */
 package ec.edu.espol.ed_p1_grupo03;
 
+import java.io.Serializable;
+
 /**
  *
  * @author ambar
  */
-public class Residuo {
+public class Residuo implements Serializable{
+    private static final long serialVersionUID = 1L;
     private String id;
     private String nombre;
     private String tipo;
@@ -27,6 +30,14 @@ public class Residuo {
         this.prioridad = prioridad;
     }
 
+    //Constructor para rutasRecoleccion
+    public Residuo(String nombre, String tipo, double peso) {
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.peso = peso;
+    }
+    
+    
     public String getId() { 
         return id; 
     }
@@ -83,5 +94,8 @@ public class Residuo {
     public void setPrioridad(String prioridad) {
         this.prioridad = prioridad;
     }
+    
+    @Override
+    public String toString() { return nombre + " (" + peso + "kg)"; }
     
 }

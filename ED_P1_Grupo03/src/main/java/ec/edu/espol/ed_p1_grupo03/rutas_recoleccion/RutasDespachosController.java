@@ -14,9 +14,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import ec.edu.espol.ed_p1_grupo03.App;
+import ec.edu.espol.ed_p1_grupo03.Residuo;
 import java.util.ArrayList;
 import java.util.List;
-//import ec.edu.espol.ed_p1_grupo03.Residuo;, usamos por ahora ResiduoTemp 
 import java.util.PriorityQueue;
 import ec.edu.espol.ed_p1_grupo03.serializado.Sistema;
 
@@ -93,10 +93,10 @@ public class RutasDespachosController implements Initializable {
     //metodo de seteo de ejemplos
     private void cargarDatosSimulados(List<Zona> destino) {
         Zona z1 = new Zona("Hospital", 50); 
-        z1.agregarResiduo(new ResiduoTemp("Jeringas", "Biológico", 80));
+        z1.agregarResiduo(new Residuo("Jeringas", "Biológico", 80));
         
         Zona z2 = new Zona("Parque", 20);
-        z2.agregarResiduo(new ResiduoTemp("Botellas", "Plástico", 10));
+        z2.agregarResiduo(new Residuo("Botellas", "Plástico", 10));
         
         destino.add(z2);
         destino.add(z1);

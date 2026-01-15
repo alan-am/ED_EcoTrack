@@ -1,6 +1,6 @@
 package ec.edu.espol.ed_p1_grupo03.rutas_recoleccion;
 
-//import ec.edu.espol.ed_p1_grupo03.Residuo;
+import ec.edu.espol.ed_p1_grupo03.Residuo;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,7 +14,7 @@ public class Zona implements Comparable<Zona>, Serializable{
     private static final long serialVersionUID = 1L;
     
     // Lista Temporal de java util
-    private List<ResiduoTemp> residuos; 
+    private List<Residuo> residuos; 
 
     public Zona(String nombre, double pRecolectadoInicial) {
         this.nombre = nombre;
@@ -24,7 +24,7 @@ public class Zona implements Comparable<Zona>, Serializable{
         this.residuos = new LinkedList<>();
     }
 
-    public void agregarResiduo(ResiduoTemp r) {
+    public void agregarResiduo(Residuo r) {
         residuos.add(r);
         pPendiente += r.getPeso(); //actualizar peso
     }
@@ -51,7 +51,7 @@ public class Zona implements Comparable<Zona>, Serializable{
     public String getNombre() { return nombre; }
     public double getPPendiente() { return pPendiente; }
     public double getPRecolectado() { return pRecolectado; }
-    public List<ResiduoTemp> getResiduos() { return residuos; }
+    public List<Residuo> getResiduos() { return residuos; }
     
 
     @Override
