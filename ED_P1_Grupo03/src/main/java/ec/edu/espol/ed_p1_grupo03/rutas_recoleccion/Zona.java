@@ -52,4 +52,13 @@ public class Zona implements Comparable<Zona>, Serializable{
     public double getPPendiente() { return pPendiente; }
     public double getPRecolectado() { return pRecolectado; }
     public List<ResiduoTemp> getResiduos() { return residuos; }
+    
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Zona otra = (Zona) obj;
+        return this.nombre.equals(otra.nombre); 
+    }
 }

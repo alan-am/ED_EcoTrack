@@ -147,10 +147,13 @@ public class RutasDespachosController implements Initializable {
     private void despacharSiguiente(ActionEvent event) {
         if (!colaZonas.isEmpty()) {
             Zona atendida = colaZonas.poll(); // Saca el de mayor prioridad 
+            Sistema.getInstance().getZonas().remove(atendida); //sacamos tmb de la lista padre
             System.out.println("Despachando camión a: " + atendida.getNombre());
             //luego implementar adicional de ventana "Residuos Procesados"
             actualizarVista();
+            
         }
+        
     }
     
     private void configurarColumnasVista(){
