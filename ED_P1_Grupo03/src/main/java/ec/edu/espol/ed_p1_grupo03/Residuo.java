@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package ec.edu.espol.ed_p1_grupo03;
 
 import java.io.Serializable;
@@ -97,5 +94,15 @@ public class Residuo implements Serializable{
     
     @Override
     public String toString() { return nombre + " (" + peso + "kg)"; }
+    
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Residuo otro = (Residuo) obj;
+        // Asumimos que el ID es único. Si no usan ID, compara por nombre.
+        return this.id != null && this.id.equals(otro.id);
+    }
     
 }

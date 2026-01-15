@@ -15,6 +15,8 @@ import comparadores.ComparadorPorPeso;
 import comparadores.ComparadorPorTipo;
 import comparadores.ComparadorPorPrioridad;
 import java.util.Collections;
+import ec.edu.espol.ed_p1_grupo03.serializado.Sistema;
+
 
 
 /**
@@ -81,14 +83,17 @@ public class SecondaryController implements Initializable {
         colFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
 
         tablaResiduos.setItems(listaResiduos);
+        
+        
+        ListaCircularDoble<Residuo> residuosSistema = Sistema.getInstance().getResiduos();
 
-        // Datos de ejemplo
-        listaResiduos.add(new Residuo("R-001", "Botellas PET", "Plástico",
-                12.5, "Zona Norte", "01/05/2025", "Alta"));
-        listaResiduos.add(new Residuo("R-002", "Latas de aluminio", "Metal",
-                1.2, "Zona Oeste", "05/05/2025", "Media"));
-        listaResiduos.add(new Residuo("R-003", "Residuos orgánicos", "Orgánico",
-                4.8, "Zona Sur", "03/07/2025", "Alta"));
+        // Solo si la lista está vacía (primera ejecución), colocamos datos de prueba
+        if (residuosSistema.isEmpty()) {
+            cargarDatosPrueba(residuosSistema);
+        }
+
+        cargarDatosDelSistema();
+        
     }
 
     // -------- Navegación --------
@@ -112,7 +117,10 @@ public class SecondaryController implements Initializable {
             double peso = Double.parseDouble(txtPeso.getText());
 
             Residuo r = new Residuo(id, nombre, tipo, peso, zona, fecha, prioridad);
+            
             listaResiduos.add(r);
+            Sistema.getInstance().getResiduos().addLast(r);
+            
             limpiarFormulario(null);
         } catch (NumberFormatException e) {
             System.out.println("Peso inválido");
@@ -125,6 +133,8 @@ public class SecondaryController implements Initializable {
         Residuo r = tablaResiduos.getSelectionModel().getSelectedItem();
         if (r != null) {
             listaResiduos.remove(r);
+            Sistema.getInstance().getResiduos().remove(r);
+            
         }
     }
 
@@ -177,5 +187,29 @@ public class SecondaryController implements Initializable {
             case "baja":  return 1;
             default:      return 0;
         }
+    }
+    
+    
+    private void cargarDatosDelSistema() {
+        listaResiduos.clear();
+        
+        // Obtenemos tu lista circular propia desde el Singleton
+        ListaCircularDoble<Residuo> listaCircular = Sistema.getInstance().getResiduos();
+
+        // Como tu ListaCircularDoble implementa Iterable (lo hicimos antes), podemos usar foreach
+        for (Residuo r : listaCircular) {
+            listaResiduos.add(r);
+        }
+    }
+    
+    // Método auxiliar para crear los datos iniciales
+    private void cargarDatosPrueba(ListaCircularDoble<Residuo> lista) {
+        Residuo r1 = new Residuo("R-001", "Botellas PET", "Plástico", 12.5, "Zona Norte", "01/05/2025", "Alta");
+        Residuo r2 = new Residuo("R-002", "Latas de aluminio", "Metal", 1.2, "Zona Oeste", "05/05/2025", "Media");
+        Residuo r3 = new Residuo("R-003", "Residuos orgánicos", "Orgánico", 4.8, "Zona Sur", "03/07/2025", "Alta");
+
+        lista.addLast(r1);
+        lista.addLast(r2);
+        lista.addLast(r3);
     }
 }

@@ -20,6 +20,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.FileChooser;
 import ec.edu.espol.ed_p1_grupo03.serializado.Sistema;
+import ec.edu.espol.ed_p1_grupo03.Residuo;
 
 //Por ahora esta implementado solo para los datos relacionado a rutas de recoleccion
 
@@ -98,7 +99,7 @@ public class ExportarDatosController implements Initializable {
             // Manejo de la lista interna de residuos (separados por punto y coma)
             StringBuilder residuosStr = new StringBuilder();
             if (z.getResiduos() != null && !z.getResiduos().isEmpty()) {
-                for (ResiduoTemp r : z.getResiduos()) {
+                for (Residuo r : z.getResiduos()) {
                     residuosStr.append(r.getTipo()).append(" (").append(r.getPeso()).append("kg); ");
                 }
             } else {
@@ -133,7 +134,7 @@ public class ExportarDatosController implements Initializable {
             sb.append("      \"residuos\": [");
             if (z.getResiduos() != null) {
                 for (int j = 0; j < z.getResiduos().size(); j++) {
-                    ResiduoTemp r = z.getResiduos().get(j);
+                    Residuo r = z.getResiduos().get(j);
                     sb.append("\n        { \"tipo\": \"").append(r.getTipo()).append("\", \"peso\": ").append(r.getPeso()).append(" }");
                     if (j < z.getResiduos().size() - 1) sb.append(",");
                 }
