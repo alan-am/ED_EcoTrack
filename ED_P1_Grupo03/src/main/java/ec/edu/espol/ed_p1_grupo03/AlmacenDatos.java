@@ -7,6 +7,7 @@ public class AlmacenDatos {
     private ListaCircularDoble<Residuo> listaResiduos; 
     
 
+   
     private MiPila<Residuo> pilaReciclaje;    
 
     private AlmacenDatos() {

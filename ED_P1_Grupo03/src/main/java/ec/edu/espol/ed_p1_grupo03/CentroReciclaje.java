@@ -1,9 +1,13 @@
 package ec.edu.espol.ed_p1_grupo03;
 
+import ec.edu.espol.ed_p1_grupo03.serializado.Sistema; 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -11,12 +15,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 
-public class CentroReciclaje {
+public class CentroReciclaje implements Initializable {
 
     @FXML private TableView<Residuo> tablaResiduoProcesado;
     @FXML private VBox vboxPilaLIFO; 
     
-    // Columnas (Asegúrate que los fx:id coincidan en el FXML)
+    // Columnas
     @FXML private TableColumn<Residuo, String> colId; 
     @FXML private TableColumn<Residuo, String> colNombre;
     @FXML private TableColumn<Residuo, String> colTipo;
@@ -27,17 +31,23 @@ public class CentroReciclaje {
     private MiPila<Residuo> pila;
     private ObservableList<Residuo> listaVisual = FXCollections.observableArrayList();
 
-    @FXML
-    public void initialize() {
-        pila = AlmacenDatos.getInstance().getPilaReciclaje();
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // 1. Obtener la pila COMPARTIDA del Sistema
+        pila = Sistema.getInstance().getPilaReciclaje();
 
-        // TRUCO: Si la pila está vacía, llenémosla con lo que haya en la lista principal
-        // para que no se vea vacía al probar.
+        // 2. LOGICA IMPORTANTE: 
+        // Si la pila está vacía, jalamos los residuos que están en la LISTA GENERAL
+        // para simular que llegaron al centro de reciclaje.
         if (pila.isEmpty()) {
-            ListaCircularDoble<Residuo> lista = AlmacenDatos.getInstance().getListaResiduos();
-            IteradorResiduos it = new IteradorResiduos(lista);
+            ListaCircularDoble<Residuo> listaGlobal = Sistema.getInstance().getResiduos();
+            // Usamos tu iterador para recorrer la lista y llenar la pila
+            IteradorResiduos it = new IteradorResiduos(listaGlobal);
             while(it.hasNext()) {
-                pila.push(it.next());
+                Residuo r = it.next();
+                if(r != null) {
+                    pila.push(r);
+                }
             }
         }
 
@@ -46,7 +56,6 @@ public class CentroReciclaje {
     }
 
     private void configurarTabla() {
-        // Enlazar columnas con atributos de la clase Residuo
         if(colId != null) colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         if(colNombre != null) colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         if(colTipo != null) colTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
@@ -60,26 +69,28 @@ public class CentroReciclaje {
     @FXML
     private void procesarResiduo() {
         if (pila.isEmpty()) {
-            mostrarAlerta("Pila vacía", "No hay más residuos para procesar.");
+            mostrarAlerta("Pila vacía", "No hay más residuos por procesar.");
             return;
         }
 
-        // LÓGICA LIFO (POP)
+        // LÓGICA LIFO (POP): Sacar el de arriba
         Residuo r = pila.pop();
         
-        // Mostrar en la tabla
+        // Mostrar en la tabla el que estamos procesando
         listaVisual.clear();
         listaVisual.add(r);
         
+        // Actualizar los cuadritos de la izquierda
         actualizarPilaVisual();
     }
 
     private void actualizarPilaVisual() {
-        vboxPilaLIFO.getChildren().clear();
+        vboxPilaLIFO.getChildren().clear(); // Borrar lo anterior
+        
         int n = pila.size();
+        // Dibujar un cuadrito verde por cada elemento restante
         for (int i = 0; i < n; i++) {
-            Label lbl = new Label("Residuo en Espera");
-            // Estilo verde tipo EcoTrack
+            Label lbl = new Label("Residuo en Espera"); 
             lbl.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white; -fx-padding: 5; -fx-background-radius: 5; -fx-min-width: 150; -fx-alignment: CENTER;");
             vboxPilaLIFO.getChildren().add(lbl);
         }

@@ -1,5 +1,6 @@
 package ec.edu.espol.ed_p1_grupo03;
 
+import ec.edu.espol.ed_p1_grupo03.serializado.Sistema; 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +16,7 @@ public class EstadisticasPieCHART {
 
     @FXML private Button btnVolverInicio;
     
-    // Asegúrate de que los IDs en el FXML sean: fx:id="pieChartTipos" y fx:id="barChartZonas"
+    // Asegúrate de que en tu FXML los IDs sean fx:id="pieChartTipos" y fx:id="barChartZonas"
     @FXML private PieChart pieChartTipos; 
     @FXML private BarChart<String, Number> barChartZonas;
 
@@ -25,11 +26,13 @@ public class EstadisticasPieCHART {
     }
 
     private void generarReportes() {
-        ListaCircularDoble<Residuo> lista = AlmacenDatos.getInstance().getListaResiduos();
-    
+        // CORRECCIÓN: Obtener la lista desde el Sistema centralizado
+        ListaCircularDoble<Residuo> lista = Sistema.getInstance().getResiduos();
+        
+        // Usar tu iterador personalizado
         IteradorResiduos iterador = new IteradorResiduos(lista);
         
-
+        // Mapas para agrupar datos
         Map<String, Double> porTipo = new HashMap<>();
         Map<String, Double> porZona = new HashMap<>();
 
@@ -43,7 +46,7 @@ public class EstadisticasPieCHART {
             }
         }
 
-        // Llenar PieChart
+        // Llenar PieChart (Tipos de residuo)
         if (pieChartTipos != null) {
             ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList();
             for (Map.Entry<String, Double> entry : porTipo.entrySet()) {
@@ -52,10 +55,10 @@ public class EstadisticasPieCHART {
             pieChartTipos.setData(pieData);
         }
 
-        // Llenar BarChart
+        // Llenar BarChart (Peso por zona)
         if (barChartZonas != null) {
             XYChart.Series<String, Number> series = new XYChart.Series<>();
-            series.setName("Peso total");
+            series.setName("Peso Total (Kg)");
             for (Map.Entry<String, Double> entry : porZona.entrySet()) {
                 series.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
             }
