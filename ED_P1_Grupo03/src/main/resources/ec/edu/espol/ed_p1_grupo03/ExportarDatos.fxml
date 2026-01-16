@@ -13,7 +13,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/8.0.171" 
             xmlns:fx="http://javafx.com/fxml/1" 
-            fx:controller="ec.edu.espol.ed_p1_grupo03.ExportarDatosController"
+            fx:controller="ec.edu.espol.ed_p1_grupo03.exportar_importar.ExportarDatosController"
             prefHeight="500.0" prefWidth="700.0">
 
     <top>
@@ -43,9 +43,9 @@
             
             <VBox spacing="20" 
                   style="-fx-background-color: #ecf9f1; 
-                         -fx-border-color: #27ae60; 
-                         -fx-border-radius: 15; 
-                         -fx-background-radius: 15;"
+                          -fx-border-color: #27ae60; 
+                          -fx-border-radius: 15; 
+                          -fx-background-radius: 15;"
                   maxWidth="500"
                   VBox.vgrow="ALWAYS">
                 <padding>
@@ -66,11 +66,12 @@
                             <Insets top="5" left="10" />
                         </padding>
                         <RadioButton fx:id="radioResiduos" 
-                                     text="Lista de residuos registrados" 
+                                     text="Lista de Residuos" 
                                      toggleGroup="$dataGroup" 
                                      selected="true" />
+                                     
                         <RadioButton fx:id="radioEstadisticas" 
-                                     text="Estadísticas globales por zona" 
+                                     text="Lista de Zonas (Rutas)" 
                                      toggleGroup="$dataGroup" />
                     </HBox>
                 </VBox>
@@ -100,7 +101,16 @@
                 
                 <Pane VBox.vgrow="ALWAYS" />
 
-                <HBox alignment="CENTER_RIGHT">
+                <HBox alignment="CENTER_RIGHT" spacing="15"> <Button fx:id="btnImportar" 
+                            text="Importar Archivo" 
+                            onAction="#importarArchivo"
+                            style="-fx-background-color: #3498db; 
+                                   -fx-text-fill: white; 
+                                   -fx-background-radius: 20; 
+                                   -fx-font-size: 14px; 
+                                   -fx-font-weight: bold; 
+                                   -fx-padding: 8 18 8 18;"/>
+
                     <Button fx:id="btnExportar" 
                             text="Exportar Archivo" 
                             onAction="#exportarArchivo"
@@ -111,6 +121,8 @@
                                    -fx-font-weight: bold; 
                                    -fx-padding: 8 18 8 18;"/>
                 </HBox>
+                
+                
             </VBox>
         </VBox>
     </center>

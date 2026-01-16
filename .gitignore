@@ -1,4 +1,5 @@
 # Compiled class file
+**/target/
 *.class
 
 # Log file
@@ -36,6 +37,7 @@ dist/
 nbdist/
 .nb-gradle/
 *.lst
+
 
 # --- Archivos de Sistema Operativo (Basura) ---
 .DS_Store

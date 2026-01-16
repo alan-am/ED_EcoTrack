@@ -1,14 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package ec.edu.espol.ed_p1_grupo03;
+
+import ec.edu.espol.ed_p1_grupo03.exportar_importar.Formateable;
+import java.io.Serializable;
 
 /**
  *
  * @author ambar
  */
-public class Residuo {
+public class Residuo implements Serializable, Formateable{
+    private static final long serialVersionUID = 1L;
     private String id;
     private String nombre;
     private String tipo;
@@ -27,6 +28,14 @@ public class Residuo {
         this.prioridad = prioridad;
     }
 
+    //Constructor para rutasRecoleccion
+    public Residuo(String nombre, String tipo, double peso) {
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.peso = peso;
+    }
+    
+    
     public String getId() { 
         return id; 
     }
@@ -82,6 +91,33 @@ public class Residuo {
     
     public void setPrioridad(String prioridad) {
         this.prioridad = prioridad;
+    }
+    
+    @Override
+    public String toString() { return nombre + " (" + peso + "kg)"; }
+    
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Residuo otro = (Residuo) obj;
+        // Asumimos que el ID es único. Si no compara por nombre.
+        return this.id != null && this.id.equals(otro.id);
+    }
+    
+    @Override
+    public String toCSV() {
+        // formato: id,nombre,tipo,peso,zona,fecha,prioridad
+        return String.format(java.util.Locale.US, "%s,%s,%s,%.2f,%s,%s,%s",
+                id, nombre, tipo, peso, zona, fecha, prioridad);
+    }
+
+    @Override
+    public String toJSON() {
+        return String.format(java.util.Locale.US, 
+                "    { \"id\": \"%s\", \"nombre\": \"%s\", \"tipo\": \"%s\", \"peso\": %.2f, \"zona\": \"%s\", \"prioridad\": \"%s\" }",
+                id, nombre, tipo, peso, zona, prioridad);
     }
     
 }
