@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 import ec.edu.espol.ed_p1_grupo03.serializado.Sistema;
+import java.util.Comparator;
 
 public class RutasDespachosController implements Initializable {
     
@@ -83,6 +84,8 @@ public class RutasDespachosController implements Initializable {
         
         colaZonas.addAll(zonasDelSistema);
         actualizarVista();
+        imprimirDemostracionComparativa();
+        
     }
     
 
@@ -147,17 +150,78 @@ public class RutasDespachosController implements Initializable {
         colPendiente.setCellValueFactory(new PropertyValueFactory<>("pendiente"));
         colRecolectado.setCellValueFactory(new PropertyValueFactory<>("recolectado"));
     }
+   
+
+    //metodo para crear e imprimir en consola el maxheap y visualizar su correcta ejecucion
+    public void imprimirDemostracionComparativa() {
+        System.out.println("\n=========================================================================");
+        System.out.println("       DEMOSTRACIÓN DE ESTRUCTURA DE DATOS: MAX-HEAP");
+        System.out.println("=========================================================================\n");
+
+        // 1. Preparación de Datos
+        List<Zona> listaSinOrden = new ArrayList<>();
+        
+        // Se añaden zonas simuladas con diferentes niveles de pendiente/utilidad
+        listaSinOrden.add(new Zona("Zona Industrial", 100.0, 500.0));  
+        listaSinOrden.add(new Zona("Parque Central", 20.0, 15.0));     
+        listaSinOrden.add(new Zona("Mercado Mayorista", 50.0, 300.0)); 
+        listaSinOrden.add(new Zona("Residencial Norte", 80.0, 80.0));  
+        listaSinOrden.add(new Zona("Hospital General", 10.0, 950.0));  
+        
+        // Se añaden los datos reales que ya existen en el sistema
+        listaSinOrden.addAll(Sistema.getInstance().getZonas());
+
+        // ----------------------------------------------------------------------------------
+        // VISUALIZACIÓN 1: ESTADO ANTES (Lista Desordenada / Orden de Inserción)
+        // ----------------------------------------------------------------------------------
+        System.out.println(">>> 1. ESTADO INICIAL (Lista sin procesar)");
+        System.out.println("    (El orden depende solo del momento en que se agregaron)");
+        System.out.println("-------------------------------------------------------------------------");
+        System.out.printf("%-20s | %-15s | %-15s\n", "ZONA", "UTILIDAD", "PENDIENTE");
+        System.out.println("-------------------------------------------------------------------------");
+        
+        for (Zona z : listaSinOrden) {
+            System.out.printf("%-20s | %-15.2f | %-15.2f\n", 
+                              z.getNombre(), 
+                              z.getUtilidad(), 
+                              z.getPPendiente());
+        }
+        System.out.println("-------------------------------------------------------------------------\n");
+
+
+        // ----------------------------------------------------------------------------------
+        // PROCESAMIENTO: CONSTRUCCIÓN DEL MAX-HEAP
+        // ----------------------------------------------------------------------------------
+        // Definición del comparador inverso: (z2, z1) para ordenar de Mayor a Menor Utilidad
+        Comparator<Zona> comparadorMax = (z1, z2) -> Double.compare(z2.getUtilidad(), z1.getUtilidad());
+        
+        PriorityQueue<Zona> maxHeap = new PriorityQueue<>(comparadorMax);
+        
+        // La "magia" del Heap ocurre aquí: al agregar, se reordenan internamente
+        maxHeap.addAll(listaSinOrden);
+
+
+        // ----------------------------------------------------------------------------------
+        // VISUALIZACIÓN 2: ESTADO DESPUÉS (Extracción del Heap)
+        // ----------------------------------------------------------------------------------
+        System.out.println(">>> 2. ESTADO FINAL (Extracción desde Max-Heap)");
+        System.out.println("    (Se garantiza que siempre sale el elemento con MAYOR utilidad primero)");
+        System.out.println("-------------------------------------------------------------------------");
+        System.out.printf("%-5s | %-20s | %-15s | %-15s\n", "RANK", "ZONA", "UTILIDAD", "PENDIENTE");
+        System.out.println("-------------------------------------------------------------------------");
+
+        int ranking = 1;
+        // extraer la raíz del árbol (el máximo) sucesivamente
+        while (!maxHeap.isEmpty()) {
+            Zona z = maxHeap.poll();
+            System.out.printf("#%-4d | %-20s | %-15.2f | %-15.2f\n", 
+                              ranking++, 
+                              z.getNombre(), 
+                              z.getUtilidad(), 
+                              z.getPPendiente());
+        }
+        System.out.println("-------------------------------------------------------------------------\n");
+    }
     
-    
-//        //metodo de seteo de ejemplos
-//    private void cargarDatosSimulados(List<Zona> destino) {
-//        Zona z1 = new Zona("Hospital", 50); 
-//        z1.agregarResiduo(new Residuo("Jeringas", "Biológico", 80));
-//        
-//        Zona z2 = new Zona("Parque", 20);
-//        z2.agregarResiduo(new Residuo("Botellas", "Plástico", 10));
-//        
-//        destino.add(z2);
-//        destino.add(z1);
-//    }
+
 }

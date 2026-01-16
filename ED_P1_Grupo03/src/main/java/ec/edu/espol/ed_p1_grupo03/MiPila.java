@@ -17,6 +17,7 @@ public class MiPila<T> {
     }
 
     public void push(T elemento) {
+        if (elemento == null) return;
         NodoPila<T> nuevo = new NodoPila<>(elemento);
         nuevo.siguiente = cima;
         cima = nuevo;

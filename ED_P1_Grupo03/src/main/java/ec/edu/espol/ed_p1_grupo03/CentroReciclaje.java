@@ -41,7 +41,7 @@ public class CentroReciclaje implements Initializable {
         // para simular que llegaron al centro de reciclaje.
         if (pila.isEmpty()) {
             ListaCircularDoble<Residuo> listaGlobal = Sistema.getInstance().getResiduos();
-            // Usamos tu iterador para recorrer la lista y llenar la pila
+            // Usamos iterador para recorrer la lista y llenar la pila
             IteradorResiduos it = new IteradorResiduos(listaGlobal);
             while(it.hasNext()) {
                 Residuo r = it.next();
