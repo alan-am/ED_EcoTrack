@@ -84,14 +84,6 @@ public class SecondaryController implements Initializable {
 
         tablaResiduos.setItems(listaResiduos);
         
-        
-        ListaCircularDoble<Residuo> residuosSistema = Sistema.getInstance().getResiduos();
-
-        // Solo si la lista está vacía (primera ejecución), colocamos datos de prueba
-        if (residuosSistema.isEmpty()) {
-            cargarDatosPrueba(residuosSistema);
-        }
-
         cargarDatosDelSistema();
         
     }
@@ -203,13 +195,13 @@ public class SecondaryController implements Initializable {
     }
     
     // Método auxiliar para crear los datos iniciales
-    private void cargarDatosPrueba(ListaCircularDoble<Residuo> lista) {
-        Residuo r1 = new Residuo("R-001", "Botellas PET", "Plástico", 12.5, "Zona Norte", "01/05/2025", "Alta");
-        Residuo r2 = new Residuo("R-002", "Latas de aluminio", "Metal", 1.2, "Zona Oeste", "05/05/2025", "Media");
-        Residuo r3 = new Residuo("R-003", "Residuos orgánicos", "Orgánico", 4.8, "Zona Sur", "03/07/2025", "Alta");
-
-        lista.addLast(r1);
-        lista.addLast(r2);
-        lista.addLast(r3);
-    }
+//    private void cargarDatosPrueba(ListaCircularDoble<Residuo> lista) {
+//        Residuo r1 = new Residuo("R-001", "Botellas PET", "Plástico", 12.5, "Zona Norte", "01/05/2025", "Alta");
+//        Residuo r2 = new Residuo("R-002", "Latas de aluminio", "Metal", 1.2, "Zona Oeste", "05/05/2025", "Media");
+//        Residuo r3 = new Residuo("R-003", "Residuos orgánicos", "Orgánico", 4.8, "Zona Sur", "03/07/2025", "Alta");
+//
+//        lista.addLast(r1);
+//        lista.addLast(r2);
+//        lista.addLast(r3);
+//    }
 }

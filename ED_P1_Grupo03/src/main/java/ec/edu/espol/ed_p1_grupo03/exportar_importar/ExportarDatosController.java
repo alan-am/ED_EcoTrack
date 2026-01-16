@@ -17,13 +17,14 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.FileChooser;
 
+
 public class ExportarDatosController implements Initializable {
 
     @FXML private Button btnVolverInicio;
     @FXML private ToggleGroup dataGroup;
     @FXML private RadioButton radioResiduos;
     @FXML private RadioButton radioEstadisticas; // 
-    
+    @FXML private Button btnImportar;  
     @FXML private ToggleGroup formatGroup;
     @FXML private RadioButton radioCSV;
     @FXML private RadioButton radioJSON;
@@ -59,7 +60,7 @@ public class ExportarDatosController implements Initializable {
             
             if (esResiduos) {
                 // cabecera especifica
-                String cabecera = "ID,NOMBRE,TIPO,PESO,ZONA,FECHA,PRIORIDAD";
+                String cabecera = "ID,NOMBRE,TIPO,PESO,ZONA,FECHA,PRIORIDAD, DETALLE_RESIDUOS";
                 contenido = generarReporte(Sistema.getInstance().getResiduos(), esCSV, cabecera, "Reporte de Residuos");
             } else {
                 String cabecera = "NOMBRE_ZONA,UTILIDAD,PESO_PENDIENTE,PESO_RECOLECTADO";
@@ -123,5 +124,40 @@ public class ExportarDatosController implements Initializable {
             sb.append("}");
         }
         return sb.toString();
+    }
+    
+    @FXML
+    private void importarArchivo(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Importar Datos a EcoTrack");
+        
+        // Filtros
+        fileChooser.getExtensionFilters().addAll(
+            new FileChooser.ExtensionFilter("Archivos CSV", "*.csv"),
+            new FileChooser.ExtensionFilter("Archivos JSON", "*.json")
+        );
+
+        File file = fileChooser.showOpenDialog(btnImportar.getScene().getWindow());
+
+        if (file != null) {
+            boolean esCSV = file.getName().toLowerCase().endsWith(".csv");
+            boolean importarResiduos = radioResiduos.isSelected(); 
+            
+            try {
+                int cantidad = 0;
+                
+                if (importarResiduos) {
+                    cantidad = Importador.importarResiduos(file, esCSV);
+                } else {
+                    cantidad = Importador.importarZonas(file, esCSV);
+                }
+                
+                mostrarAlerta("Importación Exitosa", "Se han cargado " + cantidad + " elementos al sistema.");
+                
+            } catch (Exception e) {
+                mostrarAlerta("Error de Importación", "El archivo no tiene el formato correcto o está dañado.\n" + e.getMessage());
+                e.printStackTrace();
+            }
+        }
     }
 }

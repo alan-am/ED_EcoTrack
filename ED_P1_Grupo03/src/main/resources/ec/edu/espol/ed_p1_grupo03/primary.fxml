@@ -158,7 +158,7 @@
                     <Insets top="10" right="25" bottom="10" left="25"/>
                 </padding>
 
-                <Label text="Exportar datos"
+                <Label text="Exportar/Importar datos"
                        style="-fx-font-weight: bold; -fx-font-size: 13px;"/>
                 <Label text="Generar archivos para análisis"
                        style="-fx-font-size: 11px;"/>

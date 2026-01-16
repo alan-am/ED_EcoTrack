@@ -81,28 +81,12 @@ public class RutasDespachosController implements Initializable {
         
         List<Zona> zonasDelSistema = Sistema.getInstance().getZonas();
         
-        // Si el sistema está vacío (primera vez), creamos datos de prueba y los guardamos en el sistema
-        if (zonasDelSistema.isEmpty()) {
-            cargarDatosSimulados(zonasDelSistema);
-        }
-        
         colaZonas.addAll(zonasDelSistema);
         actualizarVista();
     }
     
-    //metodo de seteo de ejemplos
-    private void cargarDatosSimulados(List<Zona> destino) {
-        Zona z1 = new Zona("Hospital", 50); 
-        z1.agregarResiduo(new Residuo("Jeringas", "Biológico", 80));
-        
-        Zona z2 = new Zona("Parque", 20);
-        z2.agregarResiduo(new Residuo("Botellas", "Plástico", 10));
-        
-        destino.add(z2);
-        destino.add(z1);
-    }
-    
 
+  
     private void actualizarVista() {
         tareasPendientes.clear();
         
@@ -163,4 +147,17 @@ public class RutasDespachosController implements Initializable {
         colPendiente.setCellValueFactory(new PropertyValueFactory<>("pendiente"));
         colRecolectado.setCellValueFactory(new PropertyValueFactory<>("recolectado"));
     }
+    
+    
+//        //metodo de seteo de ejemplos
+//    private void cargarDatosSimulados(List<Zona> destino) {
+//        Zona z1 = new Zona("Hospital", 50); 
+//        z1.agregarResiduo(new Residuo("Jeringas", "Biológico", 80));
+//        
+//        Zona z2 = new Zona("Parque", 20);
+//        z2.agregarResiduo(new Residuo("Botellas", "Plástico", 10));
+//        
+//        destino.add(z2);
+//        destino.add(z1);
+//    }
 }

@@ -24,6 +24,13 @@ public class Zona implements Comparable<Zona>, Serializable, Formateable{
         //temporal
         this.residuos = new LinkedList<>();
     }
+    
+    public Zona(String nombre, double pRecolectado, double pPendiente) {
+        this.nombre = nombre;
+        this.pRecolectado = pRecolectado;
+        this.pPendiente = pPendiente;
+        this.residuos = new LinkedList<>(); 
+    }
 
     public void agregarResiduo(Residuo r) {
         residuos.add(r);
@@ -35,6 +42,7 @@ public class Zona implements Comparable<Zona>, Serializable, Formateable{
         return pRecolectado - pPendiente;
     }
 
+    
 
 
     // menor a mayor - las zonas con negativos salen primero

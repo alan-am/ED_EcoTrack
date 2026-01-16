@@ -101,7 +101,16 @@
                 
                 <Pane VBox.vgrow="ALWAYS" />
 
-                <HBox alignment="CENTER_RIGHT">
+                <HBox alignment="CENTER_RIGHT" spacing="15"> <Button fx:id="btnImportar" 
+                            text="Importar Archivo" 
+                            onAction="#importarArchivo"
+                            style="-fx-background-color: #3498db; 
+                                   -fx-text-fill: white; 
+                                   -fx-background-radius: 20; 
+                                   -fx-font-size: 14px; 
+                                   -fx-font-weight: bold; 
+                                   -fx-padding: 8 18 8 18;"/>
+
                     <Button fx:id="btnExportar" 
                             text="Exportar Archivo" 
                             onAction="#exportarArchivo"
@@ -112,6 +121,8 @@
                                    -fx-font-weight: bold; 
                                    -fx-padding: 8 18 8 18;"/>
                 </HBox>
+                
+                
             </VBox>
         </VBox>
     </center>
